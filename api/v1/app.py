@@ -3,7 +3,7 @@
 from flask import Flask
 from models import storage
 from api.v1.views import app_views
-
+from os import getenv
 
 app = Flask(__name__)
 app.register_blueprint(app_views)
@@ -16,4 +16,6 @@ def SessionClose(self):
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0', port=5000, threaded=True)
+    ht = getenv('HBNB_API_HOST', '0.0.0.0')
+    pt = getenv('HBNB_API_HOST', '5000')
+    app.run(debug=True, host=ht, port=pt, threaded=True)
