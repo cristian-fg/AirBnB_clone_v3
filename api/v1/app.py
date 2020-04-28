@@ -4,10 +4,6 @@ from flask import Flask, jsonify
 from models import storage
 from api.v1.views import app_views
 from os import getenv
-<<<<<<< HEAD
-
-=======
->>>>>>> 44c99f5c73fee00e3d97251e7a7e854c2a3eb057
 
 app = Flask(__name__)
 app.register_blueprint(app_views)
