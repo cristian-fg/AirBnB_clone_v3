@@ -16,6 +16,10 @@ def SessionClose(self):
 
 
 if __name__ == "__main__":
-    ht = getenv('HBNB_API_HOST', '0.0.0.0')
-    pt = getenv('HBNB_API_HOST', '5000')
-    app.run(debug=True, host=ht, port=pt, threaded=True)
+    if getenv('HBNB_API_HOST') and getenv('HBNB_API_PORT'):
+        ht = getenv('HBNB_API_HOST')
+        pt = getenv('HBNB_API_PORT')
+    else:
+        ht = '0.0.0.0'
+        pt = 5000
+    app.run(host=ht, port=pt, threaded=True)
