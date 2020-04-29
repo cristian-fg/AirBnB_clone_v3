@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" States views """
+""" Places"""
 from api.v1.views import app_views
 from flask import jsonify, abort, request
 from models import storage
@@ -40,7 +40,7 @@ def Delete_place(place_id):
     """Deletes Place"""
     data = storage.all('Place')
     obj = 'Place' + '.' + place_id
-    if obj in data:
+    if obj in data.keys():
         storage.delete(data[obj])
         storage.save()
         return (jsonify({}), 200)
@@ -62,13 +62,13 @@ def Create_ob(city_id):
         return (jsonify({'error': 'Not a JSON'}), 400)
     if data is None:
         return (jsonify({'error': 'Not a JSON'}), 400)
-    if 'user_id' not in data:
+    if 'user_id' not in data.keys():
         return (jsonify({'error': 'Missing user_id'}), 400)
     MyUser = storage.all('User')
     Data2 = data['user_id']
     if "User." + Data2 not in MyUser.keys():
         return (abort(404))
-    if 'name' not in data:
+    if 'name' not in data.keys():
         return (jsonify({'error': 'Missing name'}), 400)
     data['city_id'] = city_id
     MyPlace = Place(**data)
