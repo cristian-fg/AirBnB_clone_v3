@@ -29,13 +29,14 @@ def retrieve_object(state_id):
 @app_views.route('/states/<state_id>', methods=['DELETE'])
 def Delete_object(state_id):
     """Retrieve all objects"""
-    data = storage.get('State', state_id)
-    if data is None:
-        return (abort(404))
-    else:
-        storage.delete(data)
+    data = storage.all('State')
+    obj = 'State' + '.' + state_id
+    if obj in data:
+        storage.delete(data[obj])
         storage.save()
         return (jsonify({}), 200)
+    else:
+        return abort(404)
 
 
 @app_views.route('/states/', methods=['POST'])
@@ -44,6 +45,9 @@ def Create_object():
     try:
         data = request.get_json()
     except:
+        return (jsonify({'error': 'Not a JSON'}), 400)
+
+    if data is None:
         return (jsonify({'error': 'Not a JSON'}), 400)
 
     if 'name' not in data:
@@ -61,6 +65,9 @@ def Update_object(state_id):
     try:
         data = request.get_json()
     except:
+        return (jsonify({'error': 'Not a JSON'}), 400)
+
+    if data is None:
         return (jsonify({'error': 'Not a JSON'}), 400)
 
     MyVar = storage.all('State')
