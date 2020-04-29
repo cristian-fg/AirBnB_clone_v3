@@ -6,24 +6,28 @@ from models import storage
 from models.state import State
 
 
-@app_views.route('/states/', methods=['GET'])
-def retrieve_all_objects():
-    """Retrieve all objects"""
-    data = storage.all("State")
-    new_list = []
-    for v in data.values():
-        new_list.append(v.to_dict())
-    return jsonify(new_list)
-
-
+@app_views.route('/states/', defaults={'state_id': '1'})
 @app_views.route('/states/<state_id>', methods=['GET'])
 def retrieve_object(state_id):
     """Retrieve all objects"""
     data = storage.all("State")
-    for k, v in data.items():
-        if state_id in k:
-            return jsonify(v.to_dict())
-    return abort(404)
+    obj = 'State' + '.' + state_id
+
+    if state_id == '1':
+        data = storage.all("State")
+        new_list = []
+        for v in data.values():
+            new_list.append(v.to_dict())
+        return jsonify(new_list)
+
+    elif obj not in data.keys():
+        return abort(404)
+
+    else:
+        for k, v in data.items():
+            if obj in k:
+                return jsonify(v.to_dict())
+        return abort(404)
 
 
 @app_views.route('/states/<state_id>', methods=['DELETE'])
