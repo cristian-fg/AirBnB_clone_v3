@@ -46,8 +46,8 @@ def Create_object():
         return (jsonify({'error': 'Not a JSON'}), 400)
     if data.get('name') is None:
         return (jsonify({'error': 'Missing name'}), 400)
-    MyState = State()
-    MyState.name = data.get('name')
+    MyState = State(**data)
+    storage.new()
     MyState.save()
     return (jsonify(MyState.to_dict()), 201)
 
@@ -55,12 +55,15 @@ def Create_object():
 @app_views.route('/states/<state_id>', methods=['PUT'])
 def Update_object(state_id):
     """ Updates Object """
-    data = storage.get('State', state_id)
-    if data is None:
-        return abort(404)
-    if not request.get_json():
+    try:
+        data = request.get_json()
+    except:
         return (jsonify({'error': 'Not a JSON'}), 400)
-    MyState = request.get_json()
-    data.name = MyState.get('name')
+    MyVar = storage.get('State', state_id)
+    if MyVar is None:
+        return abort(404)
+    for k, v in data.items():
+        if k != 'id' or k != 'created_at' or k != 'updated_at':
+            setattr(MyVar, k, v)
     storage.save()
-    return (jsonify(data.to_dict()), 201)
+    return (jsonify(MyVar.to_dict()), 200)
