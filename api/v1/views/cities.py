@@ -53,6 +53,11 @@ def Delete_obj(city_id):
                  strict_slashes=False)
 def Create_obj(state_id):
     """ Create Obj """
+    Id_state = storage.all('State')
+    obj = 'State' + '.' + state_id
+    if obj not in Id_state:
+        return abort(404)
+
     try:
         data = request.get_json()
     except:
@@ -63,16 +68,12 @@ def Create_obj(state_id):
 
     if 'name' not in data:
         return (jsonify({'error': 'Missing name'}), 400)
-    Id_state = storage.all('State')
-    obj = 'State' + '.' + state_id
-    if obj in Id_state.keys():
-        MyCity = City(**data)
-        MyCity.state_id = state_id
-        storage.new(MyCity)
-        storage.save()
-        return (jsonify(MyCity.to_dict()), 201)
-    else:
-        return (abort(404))
+
+    MyCity = City(**data)
+    MyCity.state_id = state_id
+    storage.new(MyCity)
+    storage.save()
+    return (jsonify(MyCity.to_dict()), 201)
 
 
 @app_views.route('/cities/<city_id>', methods=['PUT'], strict_slashes=False)
