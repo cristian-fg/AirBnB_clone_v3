@@ -28,11 +28,11 @@ def Retrieve_Cities2(city_id):
     """ list cities"""
     MyCity = storage.all('City')
     obj = 'City' + '.' + city_id
-    if obj not in MyCity.keys():
-        return (abort(404))
+    """ if obj not in MyCity.keys(): """
     for k, v in MyCity.items():
         if obj in k:
             return jsonify(v.to_dict())
+    return (abort(404))
 
 
 @app_views.route('/cities/<city_id>', methods=['DELETE'],
