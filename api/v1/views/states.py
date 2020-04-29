@@ -6,15 +6,14 @@ from models import storage
 from models.state import State
 
 
-@app_views.route('/states/', defaults={'state_id': '1'})
-@app_views.route('/states/<state_id>', methods=['GET'])
+@app_views.route('/states', defaults={'state_id': '1'}, strict_slashes=False)
+@app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
 def retrieve_object(state_id):
     """Retrieve all objects"""
     data = storage.all("State")
     obj = 'State' + '.' + state_id
 
     if state_id == '1':
-        data = storage.all("State")
         new_list = []
         for v in data.values():
             new_list.append(v.to_dict())
@@ -30,7 +29,8 @@ def retrieve_object(state_id):
         return abort(404)
 
 
-@app_views.route('/states/<state_id>', methods=['DELETE'])
+@app_views.route('/states/<state_id>', methods=['DELETE'],
+                 strict_slashes=False)
 def Delete_object(state_id):
     """Retrieve all objects"""
     data = storage.all('State')
@@ -43,7 +43,7 @@ def Delete_object(state_id):
         return abort(404)
 
 
-@app_views.route('/states/', methods=['POST'])
+@app_views.route('/states', methods=['POST'], strict_slashes=False)
 def Create_object():
     """ Creates an Object """
     try:
@@ -63,7 +63,7 @@ def Create_object():
     return (jsonify(MyState.to_dict()), 201)
 
 
-@app_views.route('/states/<state_id>', methods=['PUT'])
+@app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
 def Update_object(state_id):
     """ Updates Object """
     try:
