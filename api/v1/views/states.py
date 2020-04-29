@@ -62,12 +62,14 @@ def Update_object(state_id):
         data = request.get_json()
     except:
         return (jsonify({'error': 'Not a JSON'}), 400)
+
     MyVar = storage.all('State')
-    if state_id in MyVar:
+    obj = 'State' + '.' + state_id
+    if obj in MyVar:
         for k, v in data.items():
             if k != 'id' or k != 'created_at' or k != 'updated_at':
-                setattr(MyVar, k, v)
+                setattr(MyVar[obj], k, v)
         storage.save()
-        return (jsonify(MyVar.to_dict()), 200)
+        return (jsonify(MyVar[obj].to_dict()), 200)
     else:
         return abort(404)
