@@ -89,8 +89,8 @@ def Update_obj(city_id):
     obj = 'City' + '.' + city_id
     if obj in MyVar:
         for k, v in data.items():
-            if k != 'id' or k != state_id or k != 'created_at' or
-            k != 'updated_at':
+            if k != 'id' or k != 'state_id' or k != 'cre\
+                                ated_at' or k != 'updated_at':
                 setattr(MyVar[obj], k, v)
         storage.save()
         return (jsonify(MyVar[obj].to_dict()), 200)
