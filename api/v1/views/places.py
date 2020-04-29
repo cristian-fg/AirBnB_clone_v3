@@ -93,5 +93,5 @@ def Update_ob(place_id):
     for k, v in data.items():
         if k != 'id' or k != 'created_at' or k != 'updated_at':
             setattr(MyVar[obj], k, v)
-        storage.save()
-        return (jsonify(MyVar[obj].to_dict()), 200)
+    storage.save()
+    return (jsonify(MyVar[obj].to_dict()), 200)
