@@ -15,7 +15,7 @@ def Retrieve_Cities(state_id):
     MyCity = []
     flag = 0
     for v in MyState.values():
-        if state_id in v.state_id:
+        if state_id == v.state_id:
             MyCity.append(v.to_dict())
             flag = 1
     if flag == 0:
