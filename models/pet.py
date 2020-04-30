@@ -25,5 +25,5 @@ class Pet(BaseModel, Base):
         color = ""
 
     def __init__(self, *args, **kwargs):
-        """initializes state"""
+        """init a pet"""
         super().__init__(*args, **kwargs)

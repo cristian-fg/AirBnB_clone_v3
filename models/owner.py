@@ -1,5 +1,5 @@
 #!/usr/bin/python
-""" holds class owner"""
+""" class owner"""
 import models
 from models.base_model import BaseModel, Base
 from os import getenv
@@ -20,5 +20,5 @@ class Owner(BaseModel, Base):
         last_name = ""
 
     def __init__(self, *args, **kwargs):
-        """initializes city"""
+        """init a owner"""
         super().__init__(*args, **kwargs)
